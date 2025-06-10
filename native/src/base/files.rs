@@ -139,7 +139,7 @@ impl<T: Write> WriteExt for T {
 
 pub struct FileAttr {
     pub st: libc::stat,
-    #[cfg(feature = "selinux")]
+    // #[cfg(feature = "selinux")]
     pub con: Utf8CStrBufArr<128>,
 }
 
@@ -147,13 +147,13 @@ impl FileAttr {
     fn new() -> Self {
         FileAttr {
             st: unsafe { mem::zeroed() },
-            #[cfg(feature = "selinux")]
+            // #[cfg(feature = "selinux")]
             con: Utf8CStrBufArr::new(),
         }
     }
 }
 
-#[cfg(feature = "selinux")]
+// #[cfg(feature = "selinux")]
 const XATTR_NAME_SELINUX: &[u8] = b"security.selinux\0";
 
 pub struct DirEntry<'a> {
@@ -635,7 +635,7 @@ impl FsPath {
         unsafe {
             libc::lstat(self.as_ptr(), &mut attr.st).as_os_err()?;
 
-            #[cfg(feature = "selinux")]
+            // #[cfg(feature = "selinux")]
             {
                 let sz = libc::lgetxattr(
                     self.as_ptr(),
@@ -657,7 +657,7 @@ impl FsPath {
             }
             libc::lchown(self.as_ptr(), attr.st.st_uid, attr.st.st_gid).as_os_err()?;
 
-            #[cfg(feature = "selinux")]
+            // #[cfg(feature = "selinux")]
             if !attr.con.is_empty() {
                 libc::lsetxattr(
                     self.as_ptr(),
@@ -731,7 +731,7 @@ pub fn fd_get_attr(fd: RawFd) -> io::Result<FileAttr> {
     unsafe {
         libc::fstat(fd, &mut attr.st).as_os_err()?;
 
-        #[cfg(feature = "selinux")]
+        // #[cfg(feature = "selinux")]
         {
             let sz = libc::fgetxattr(
                 fd,
@@ -751,7 +751,7 @@ pub fn fd_set_attr(fd: RawFd, attr: &FileAttr) -> io::Result<()> {
         libc::fchmod(fd, (attr.st.st_mode & 0o777).as_()).as_os_err()?;
         libc::fchown(fd, attr.st.st_uid, attr.st.st_gid).as_os_err()?;
 
-        #[cfg(feature = "selinux")]
+        // #[cfg(feature = "selinux")]
         if !attr.con.is_empty() {
             libc::fsetxattr(
                 fd,
