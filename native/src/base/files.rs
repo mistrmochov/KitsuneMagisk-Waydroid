@@ -635,17 +635,17 @@ impl FsPath {
         unsafe {
             libc::lstat(self.as_ptr(), &mut attr.st).as_os_err()?;
 
-            #[cfg(feature = "selinux")]
-            {
-                let sz = libc::lgetxattr(
-                    self.as_ptr(),
-                    XATTR_NAME_SELINUX.as_ptr().cast(),
-                    attr.con.as_mut_ptr().cast(),
-                    attr.con.capacity(),
-                )
-                .check_os_err()?;
-                attr.con.set_len((sz - 1) as usize);
-            }
+            // #[cfg(feature = "selinux")]
+            // {
+            //     let sz = libc::lgetxattr(
+            //         self.as_ptr(),
+            //         XATTR_NAME_SELINUX.as_ptr().cast(),
+            //         attr.con.as_mut_ptr().cast(),
+            //         attr.con.capacity(),
+            //     )
+            //     .check_os_err()?;
+            //     attr.con.set_len((sz - 1) as usize);
+            // }
         }
         Ok(attr)
     }
@@ -657,17 +657,17 @@ impl FsPath {
             }
             libc::lchown(self.as_ptr(), attr.st.st_uid, attr.st.st_gid).as_os_err()?;
 
-            #[cfg(feature = "selinux")]
-            if !attr.con.is_empty() {
-                libc::lsetxattr(
-                    self.as_ptr(),
-                    XATTR_NAME_SELINUX.as_ptr().cast(),
-                    attr.con.as_ptr().cast(),
-                    attr.con.len() + 1,
-                    0,
-                )
-                .as_os_err()?;
-            }
+            // #[cfg(feature = "selinux")]
+            // if !attr.con.is_empty() {
+            //     libc::lsetxattr(
+            //         self.as_ptr(),
+            //         XATTR_NAME_SELINUX.as_ptr().cast(),
+            //         attr.con.as_ptr().cast(),
+            //         attr.con.len() + 1,
+            //         0,
+            //     )
+            //     .as_os_err()?;
+            // }
         }
         Ok(())
     }
