@@ -2,7 +2,11 @@
 ![](docs/images/logo_dark.png#gh-light-mode-only)
 
 
-# Kitsune Magisk
+# Kitsune Magisk - Waydroid
+
+# Notice
+
+**This is forked KitsuneMagisk, that includes small patches for being able to run on Waydroid, please do not use on actual devices!**
 
 **This is not an officially supported [topjohnwu](https://github.com/topjohnwu) project**. 
 
