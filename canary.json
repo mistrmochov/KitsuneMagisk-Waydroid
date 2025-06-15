@@ -1,0 +1,12 @@
+{
+  "magisk": {
+    "version": "v27.2-Waydroid",
+    "versionCode": "27002",
+    "link": "https://github.com/mistrmochov/KitsuneMagisk-Waydroid/releases/download/v27.2-Waydroid/app-release.apk",
+    "note": "https://1q23lyc45.github.io/note.md"
+  },
+  "stub": {
+    "versionCode": "39",
+    "link": "https://github.com/mistrmochov/KitsuneMagisk-Waydroid/releases/download/v27.2-Waydroid/stub-release.apk"
+  }
+}
