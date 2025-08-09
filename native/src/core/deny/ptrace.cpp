@@ -158,9 +158,17 @@ static bool check_process(int pid, const char *process, const char *context, con
 }
 
 static bool is_zygote(int pid){
-    return check_process(pid, "zygote", "u:r:zygote:s0", nullptr)  
-        || check_process(pid, "zygote64", "u:r:zygote:s0", nullptr)
-        || check_process(pid, "zygote32", "u:r:zygote:s0", nullptr);
+    if (selinux_enabled()) {
+        // SELinux enabled: check both name and context for security
+        return check_process(pid, "zygote", "u:r:zygote:s0", nullptr)
+            || check_process(pid, "zygote64", "u:r:zygote:s0", nullptr)
+            || check_process(pid, "zygote32", "u:r:zygote:s0", nullptr);
+    } else {
+        // SELinux disabled (e.g., Waydroid): only check process name
+        return check_process(pid, "zygote", nullptr, nullptr)
+            || check_process(pid, "zygote64", nullptr, nullptr)
+            || check_process(pid, "zygote32", nullptr, nullptr);
+    }
 }
 
 static void check_zygote(){
